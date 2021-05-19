@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Chat Bot JSC</string>
+    <string name="ketik_pertanyaan">Ketik Pertanyaan</string>
+    <string name="send_icon">Send Icon</string>
+</resources>
