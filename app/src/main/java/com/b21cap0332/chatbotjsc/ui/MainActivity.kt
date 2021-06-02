@@ -1,20 +1,22 @@
-package com.b21cap0332.chatbotjsc
+package com.b21cap0332.chatbotjsc.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.b21cap0332.chatbotjsc.data.Message
+import com.b21cap0332.chatbotjsc.domain.model.Message
 import com.b21cap0332.chatbotjsc.databinding.ActivityMainBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
     
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModel()
     private lateinit var adapter: MessageAdapter
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,8 +25,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         adapter = MessageAdapter()
-        
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MainViewModel::class.java]
 
         binding.apply {
             rvMessage.adapter = adapter
@@ -39,13 +39,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
         
-        binding.btnSend.setOnClickListener { 
-            viewModel.sendMessageToApi(binding.txtQuestion.text.toString())
+        binding.btnSend.setOnClickListener {
+            val text = binding.txtQuestion.text.toString()
+            viewModel.setMessage(text)
             val time = SimpleDateFormat("HH:mm", Locale("in", "ID")).format(Date())
-            adapter.setItem(
-                Message(binding.txtQuestion.text.toString(), MessageAdapter.SEND, time)
-            )
+            adapter.addItem(Message(text, MessageAdapter.SEND, time))
             binding.txtQuestion.setText("")
+
+            viewModel.sendMessageToApi()
         }
+
+        viewModel.sendMessageToApi().observe(this, {
+//            Log.i("BBBBB", it.text)
+            if (it.text != "no") {
+                Log.i("AAAAA", it.text)
+                adapter.addItem(it)
+            }
+//            adapter.addItem(it)
+        })
     }
 }

@@ -1,9 +1,10 @@
-package com.b21cap0332.chatbotjsc
+package com.b21cap0332.chatbotjsc.ui
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.b21cap0332.chatbotjsc.data.Message
+import com.b21cap0332.chatbotjsc.domain.model.Message
 import com.b21cap0332.chatbotjsc.databinding.BubbleReceivedBinding
 import com.b21cap0332.chatbotjsc.databinding.BubbleSendBinding
 
@@ -11,7 +12,7 @@ class MessageAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var listMassage = ArrayList<Message>()
 
-    fun setItem(message: Message) {
+    fun addItem(message: Message) {
         listMassage.add(message)
         notifyDataSetChanged()
     }
@@ -41,18 +42,19 @@ class MessageAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        when (viewType) {
+        return when (viewType) {
             SEND -> {
                 val binding = BubbleSendBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                return MessageSendHolder(binding)
+                MessageSendHolder(binding)
             }
             RECEIVED -> {
                 val binding = BubbleReceivedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                return MessageReceivedHolder(binding)
+                MessageReceivedHolder(binding)
             }
             else -> {
+                Log.e("MessageAdapter", "Error")
                 val binding = BubbleSendBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                return MessageSendHolder(binding)
+                MessageSendHolder(binding)
             }
         }
     }
