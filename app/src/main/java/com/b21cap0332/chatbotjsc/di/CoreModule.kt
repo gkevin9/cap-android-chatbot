@@ -35,7 +35,7 @@ val networkModule = module {
 
     single {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.1.9:5000/api/v1/")
+            .baseUrl("http://192.168.1.9:5000/api/v1/") //sample target api
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(get())

@@ -50,12 +50,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.sendMessageToApi().observe(this, {
-//            Log.i("BBBBB", it.text)
             if (it.text != "no") {
-                Log.i("AAAAA", it.text)
                 adapter.addItem(it)
             }
-//            adapter.addItem(it)
         })
     }
 }
