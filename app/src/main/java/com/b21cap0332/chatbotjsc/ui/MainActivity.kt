@@ -28,7 +28,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.apply {
             rvMessage.adapter = adapter
-            rvMessage.layoutManager = LinearLayoutManager(this@MainActivity)
+            val layoutManager = LinearLayoutManager(this@MainActivity)
+            layoutManager.stackFromEnd = true
+            rvMessage.layoutManager = layoutManager
 
             txtQuestion.addTextChangedListener {
                 if (it?.length ?: 0 > 0) {

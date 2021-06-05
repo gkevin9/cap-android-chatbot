@@ -27,6 +27,7 @@ class MessageAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class MessageReceivedHolder(val binding: BubbleReceivedBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(message: Message) {
             binding.txtSendMessage.text = message.text
+            binding.txtTimeReceived.text = message.time
         }
     }
 
